@@ -14,7 +14,7 @@
     counter-increment:linecounter;
     width:100%;
     float:left;
-    white-space: pre-wrap;
+    white-space:pre-wrap;
 }
 .block > span:nth-child(odd){
     /*background-color:#B2F0FF;*/
@@ -27,10 +27,11 @@
     background-color:#c6dbef;
 }
 .block > span:before{
-    color: gray;
-    font-size: 80%;
+    color:gray;
+    font-size:80%;
     content:counter(linecounter);
     width:2.5em;
+    float:left; /*http://stackoverflow.com/questions/19439079/css-before-pseudo-element-line-height*/
     display:inline-block;
     border-right:1px solid gray;
     margin-right:3px;
