@@ -26,10 +26,11 @@
     /*background-color:#F5DBD1;*/
     background-color:#c6dbef;
 }
-.block > span:before{
+.numbered > span:before{
     color: gray;
     font-size: 80%;
     content:counter(linecounter);
+    float: left; /*http://stackoverflow.com/questions/19439079/css-before-pseudo-element-line-height*/
     width:2.5em;
     display:inline-block;
     border-right:1px solid gray;
