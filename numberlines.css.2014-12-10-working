@@ -1,0 +1,37 @@
+/*
+ * numberlines.css
+ * Numbers lines in <pre> block automatically; works with numberlines.js
+ * David J. Birnbaum, djbpitt@gmail.com, http://www.obdurodon.org
+ * First created 2014-11-16; see further documentation in numberlines.js
+ * 
+ * Based on http://bililite.com/blog/2012/08/05/line-numbering-in-pre-elements/
+ * Works with numberlines.js; full documentation there
+ */
+.block{
+    counter-reset:linecounter;
+}
+.block > span{
+    counter-increment:linecounter;
+    width:100%;
+    float:left;
+}
+.block > span:nth-child(odd){
+    /*background-color:#B2F0FF;*/
+    /*background-color:#FFE4DA;*/
+    background-color:#eff3ff;
+}
+.block > span:nth-child(even){
+    /*background-color:#FFE1E6;*/
+    /*background-color:#F5DBD1;*/
+    background-color:#c6dbef;
+}
+.block > span:before{
+    color: black;
+    content:counter(linecounter);
+    width:2em;
+    display:inline-block;
+    border-right:1px solid black;
+    margin-right:2px;
+    text-align:right;
+    padding-right:2px;
+}
