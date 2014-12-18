@@ -1,0 +1,437 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <!--#set var="title" value="JavaScript piece by piece" -->
+    <!--#config timefmt="%Y-%m-%dT%X%z" -->
+    <head>
+        <title><!--#echo var="title" --></title>
+        <link rel="stylesheet" type="text/css" href="http://www.obdurodon.org/css/style.css" />
+        <!--#include virtual="inc/dh-header.html" -->
+<!--        <link href="http://www.obdurodon.org/css/numberlines.css" rel="stylesheet" type="text/css"/>
+        <script type="text/javascript" src="http://www.obdurodon.org/js/numberlines.js">/**/</script>-->
+    </head>
+    <body>
+        <!--#include virtual="inc/dh-boilerplate.html" -->
+        <h3>Before you begin: linking your JavaScript</h3>
+        <p>Projects in this course (and in our own work) save JavaScript code in a separate file,
+            apart from the HTML, and then associate that file with the HTML with a special element
+            inside the HTML <code>&lt;head&gt;</code>. This is similar to the way we manage CSS: we
+            create CSS in a separate file and associate it with the HTML document by using a special
+            linking element inside the HTML <code>&lt;head&gt;</code>. To link from your HTML to a
+            JavaScript file in the same directory called <q>project.js</q>, add the following
+            element to the <code>&lt;head&gt;</code> of your HTML page:</p>
+        <pre class="block">&lt;script type="text/javascript" src="project.js"&gt;//&lt;/script&gt;</pre>
+        <p>In the section immediately below we summarize the three basic components of a JavaScript
+            program. After that summary we provide examples of the code for each of the sections.
+            Finally, we show a complete JavaScript program that we build from those components.</p>
+        <h3>The three basic components of a JavaScript program</h3>
+        <p>The JavaScript file itself typically has three components:</p>
+        <ol>
+            <li><p><strong>The <dfn>function</dfn> that does the work.</strong> There has to be a
+                    JavaScript function that does something interesting with your document. The
+                        <q>something interesting</q> might be highlighting some text, making
+                    something appear and disappear, etc.</p></li>
+            <li><p><strong>A function that binds the <dfn>event handler</dfn> that invokes the
+                        function to the <dfn>target</dfn>.</strong> We usually call this function
+                        <code>init()</code>, but the name is arbitrary. The JavaScript function does
+                    what it’s supposed to do only when something happens that causes it to execute.
+                    The function in #1, above, by itself, doesn’t know when to fire, that is, when
+                    to turn highlighting on or off or toggle the visibility of something. You tell
+                    it when to do that by creating an <dfn>event handler</dfn> and
+                        <dfn>binding</dfn> the <dfn>function</dfn> from step #1 to the
+                        <dfn>target</dfn>. The target is the part of the page with which you
+                    interact, which in this case is the name that you click on. The <dfn>event
+                        handler</dfn> is JavaScript code that gets bound to (associated with) the
+                    target (here, a name on the page), so that the function in step #1 will fire
+                    when a particular event (such as a click) happens on the target (such as a
+                    name).</p></li>
+            <li><p><strong>Initialization.</strong> The function in step #1 doesn’t fire unless an
+                    event happens to make it fire, and in step #2 we told the targets to <dfn>listen
+                        for</dfn> the event and invoke the function when the event happens. But the
+                    JavaScript code that does the binding is itself a function, and it isn’t enough
+                    just to write it and let it sit around in our script—we also have to make
+                        <em>it</em> fire. We do that by instructing the initialization routine (the
+                    one that binds the function we care about to the targets with which we’re going
+                    to interact) to fire when the page loads.</p></li>
+        </ol>
+        <p>The flow, then, is that the user loads the HTML page and step #3 listens for when the
+            page has finished loading and then fires step #2. Step #2 identifies the targets in the
+            HTML with which we want to be able to interact and binds the function in Step #1 to
+            those targets. That way, when the event we care about happens, the function will fire.
+            Steps #3 and #2 fire only once; #3 fires automatically on loading and invokes #2. Step
+            #1 fires every time the event for which we’re watching happens on a target.</p>
+        <p class="note">There are other ways to construct and initialize your JavaScript, and the
+            method described above has some limitations that can cause problems if, for example, you
+            attach multiple JavaScript files to your HTML. The method outlined above is easy to
+            understand because it separates the components neatly: 1) create a function that will do
+            something you care about; 2) create code that will cause bits of your HTML (targets) to
+            fire the function when you interact with them; and 3) cause the initialization
+            code, which binds the function to the targets, to run when you load the page. If your
+            needs are more complex, let us know and we’ll tell you about the risks of this
+            simplified procedure and how to avoid them.</p>
+        <h3>Sample project</h3>
+        <p>Highlighting is the easiest type of JavaScript action because it can involve just
+            changing the background color of part of the page. This is simpler than other common
+            project tasks, such as show/hide or popups, so we’ll create a page that will highlight
+            parts of speech on demand. You can find examples of typical JavaScript activities used
+            in course projects in the JavaScript section of <a href="http://dh.obdurodon.org">our
+                main course page.</a></p>
+        <h3>Sample HTML</h3>
+        <p>Here’s a sample HTML document, taken from the lead paragraph of a story in the 2014-11-13
+                <cite>New York times</cite>:</p>
+        <pre class="block">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+    &lt;head&gt;
+        &lt;title&gt;Sample&lt;/title&gt;
+        &lt;link rel="stylesheet" type="text/css" href="project.css" /&gt;
+        &lt;script type="text/javascript" src="project.js"&gt;//&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;ul&gt;
+            &lt;li&gt;&lt;input type="checkbox" value="adj" /&gt;Adjective&lt;/li&gt;
+            &lt;li&gt;&lt;input type="checkbox" value="art" /&gt;Article&lt;/li&gt;
+            &lt;li&gt;&lt;input type="checkbox" value="conj" /&gt;Conjunction&lt;/li&gt;
+            &lt;li&gt;&lt;input type="checkbox" value="noun" /&gt;Noun&lt;/li&gt;
+            &lt;li&gt;&lt;input type="checkbox" value="number" /&gt;Number&lt;/li&gt;
+            &lt;li&gt;&lt;input type="checkbox" value="prep" /&gt;Preposition&lt;/li&gt;
+            &lt;li&gt;&lt;input type="checkbox" value="pron" /&gt;Pronoun&lt;/li&gt;
+            &lt;li&gt;&lt;input type="checkbox" value="verb" /&gt;Verb&lt;/li&gt;
+        &lt;/ul&gt;
+        &lt;hr /&gt;
+        &lt;h1&gt;&lt;span class="noun"&gt;Obama&lt;/span&gt;
+            &lt;span class="verb"&gt;Said&lt;/span&gt;
+            &lt;span class="verb"&gt;to Plan&lt;/span&gt;
+            &lt;span class="noun"&gt;Moves&lt;/span&gt;
+            &lt;span class="verb"&gt;to Shield&lt;/span&gt;
+            &lt;span class="number"&gt;5 Million&lt;/span&gt;
+            &lt;span class="noun"&gt;Immigrants&lt;/span&gt;&lt;/h1&gt;
+        &lt;p&gt;&lt;span class="noun"&gt;President&lt;/span&gt;
+            &lt;span class="noun"&gt;Obama&lt;/span&gt;
+            &lt;span class="verb"&gt;will ignore&lt;/span&gt;
+            &lt;span class="adj"&gt;angry&lt;/span&gt;
+            &lt;span class="noun"&gt;protests&lt;/span&gt;
+            &lt;span class="prep"&gt;from&lt;/span&gt;
+            &lt;span class="noun"&gt;Republicans&lt;/span&gt;
+            &lt;span class="conj"&gt;and&lt;/span&gt;
+            &lt;span class="verb"&gt;announce&lt;/span&gt;
+            &lt;span class="conj"&gt;as soon as&lt;/span&gt;
+            &lt;span class="adj"&gt;next&lt;/span&gt;
+            &lt;span class="noun"&gt;week&lt;/span&gt;
+            &lt;span class="art"&gt;a&lt;/span&gt;
+            &lt;span class="adj"&gt;broad&lt;/span&gt;
+            &lt;span class="noun"&gt;overhaul&lt;/span&gt;
+            &lt;span class="prep"&gt;of&lt;/span&gt;
+            &lt;span class="art"&gt;the&lt;/span&gt;
+            &lt;span class="noun"&gt;nation’s&lt;/span&gt;
+            &lt;span class="noun"&gt;immigration&lt;/span&gt;
+            &lt;span class="noun"&gt;enforcement&lt;/span&gt;
+            &lt;span class="noun"&gt;system&lt;/span&gt;
+            &lt;span class="conj"&gt;that&lt;/span&gt;
+            &lt;span class="verb"&gt;will protect&lt;/span&gt;
+            &lt;span class="prep"&gt;up to&lt;/span&gt;
+            &lt;span class="number"&gt;five million&lt;/span&gt;
+            &lt;span class="adj"&gt;undocumented&lt;/span&gt;
+            &lt;span class="noun"&gt;immigrants&lt;/span&gt;
+            &lt;span class="prep"&gt;from&lt;/span&gt;
+            &lt;span class="art"&gt;the&lt;/span&gt;
+            &lt;span class="noun"&gt;threat&lt;/span&gt;
+            &lt;span class="prep"&gt;of&lt;/span&gt;
+            &lt;span class="noun"&gt;deportation&lt;/span&gt;
+            &lt;span class="prep"&gt;and&lt;/span&gt;
+            &lt;span class="verb"&gt;provide&lt;/span&gt;
+            &lt;span class="pron"&gt;many&lt;/span&gt;
+            &lt;span class="prep"&gt;of&lt;/span&gt;
+            &lt;span class="pron"&gt;them&lt;/span&gt;
+            &lt;span class="prep"&gt;with&lt;/span&gt;
+            &lt;span class="noun"&gt;work&lt;/span&gt;
+            &lt;span class="noun"&gt;permits&lt;/span&gt;, 
+            &lt;span class="prep"&gt;according to&lt;/span&gt;
+            &lt;span class="noun"&gt;administration&lt;/span&gt;
+            &lt;span class="noun"&gt;officials&lt;/span&gt;
+            &lt;span class="pron"&gt;who&lt;/span&gt;
+            &lt;span class="verb"&gt;have&lt;/span&gt;
+            &lt;span class="adj"&gt;direct&lt;/span&gt;
+            &lt;span class="noun"&gt;knowledge&lt;/span&gt;
+            &lt;span class="prep"&gt;of&lt;/span&gt;
+            &lt;span class="art"&gt;the&lt;/span&gt;
+            &lt;span class="noun"&gt;plan&lt;/span&gt;.&lt;/p&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</pre>
+        <p>We’ve tagged each word or group of words as belonging to one of eight parts of speech
+            (adj[ective], art[icle], conj[unction], noun, number, prep[osition], pron[oun], verb) by
+            tagging each word or group as an HTML <code>&lt;span&gt;</code> element and marking the
+            part of speech with the <code>@class</code> attribute. There’s no styling going on (yet)
+            and no use of JavaScript (except for the fact that we link to an external JavaScript
+            file with a <code>&lt;script&gt;</code> element inside the <code>&lt;head&gt;</code>),
+            so our markup has no effect on the appearance:</p>
+        <div class="pre-colored">
+            <ul>
+                <li><input type="checkbox" value="x" />Adjective</li>
+                <li><input type="checkbox" value="x" />Article</li>
+                <li><input type="checkbox" value="x" />Conjunction</li>
+                <li><input type="checkbox" value="x" />Noun</li>
+                <li><input type="checkbox" value="x" />Number</li>
+                <li><input type="checkbox" value="x" />Preposition</li>
+                <li><input type="checkbox" value="x" />Pronoun</li>
+                <li><input type="checkbox" value="x" />Verb</li>
+            </ul>
+            <hr />
+            <h1>Obama Said to Plan Moves to Shield 5 Million Immigrants</h1>
+            <p>President Obama will ignore angry protests from Republicans and announce as soon as
+                next week a broad overhaul of the nation’s immigration enforcement system that will
+                protect up to five million undocumented immigrants from the threat of deportation
+                and provide many of them with work permits, according to administration officials
+                who have direct knowledge of the plan.</p>
+        </div>
+        <h3>The JavaScript</h3>
+        <p>We want to highlight parts of speech when the user checks a box and remove the
+            highlighting when the user unchecks the box. This means that we need to create functions
+            that 1) respond to the checking and unchecking by toggling highlighting, 2) bind event
+            listeners to the checkboxes so that they’ll respond to a change in checked status, and
+            3) initialize the script so that the binding happens when the page loads. The complete
+            JavaScript file is below, but we discuss the parts separately first.</p>
+        <h4>Bootstrapping with <code>window.addEventListener()</code></h4>
+        <p>Our initialization is executed by firing the code below. Here, we declare a function called <code>init()</code> earlier 
+        in our code and pass it's name as an argument when we add the event listener. We could also write our code
+        directly into the <code>addEventListener()</code> call. This format would add an anonymous function to listen
+        to our load event. Using an anonymous function doesn't require naming the function, and so we prevent any naming collisions.
+        If we were to link another javascript file to our HTML (with our current implementation), we would have to check that there is no other function called
+        <code>init()</code> else deal with potentially broken code.</p>
+        <pre class="block">window.addEventListener('DOMContentLoaded', init, false);</pre>
+        <h4>The original background color</h4>
+        <p>We want to change the background color for each part of speech, and in order to be able
+            to change it back, we need to remember the original background color of the page. We can
+            retrieve the original background color and set it to a variable called
+                <code>originalBackground</code> with:</p>
+        <pre class="block">originalBackground = document.body.style.backgroundColor;</pre>
+        <p>We need to do this inside our <code>init()</code> function because we can’t determine the
+            value safely until the page has loaded completely, so that the <code>&lt;body&gt;</code>
+            element has been constructed and the background color has been set. We declare the
+            variable at the beginning of our JavaScript with:</p>
+        <pre class="block">var originalBackground;</pre>
+        <p>but we wait and assign a value to it only inside the <code>init()</code> function.</p>
+        <h4>Initialization with <code>init()</code></h4>
+        <p>Our initialization function, which we’ve called <code>init()</code>, reads as
+            follows:</p>
+        <pre class="block">function init() {
+    originalBackground = document.body.style.backgroundColor;
+    var checkboxes = document.getElementsByTagName('input');
+    for (var i = 0; i &lt; checkboxes.length; i++) {
+        checkboxes[i].addEventListener('click', toggleHighlight, false);
+    }
+}</pre>
+        <p>This function retrieves the original background color of the page (actually, of the
+                <code>&lt;body&gt;</code> element) and assigns it to a variable called
+                <code>originalBackground</code>, which we initialized (created) at the beginning of
+            the script. As noted above, we can’t assign that variable a value when we first create
+            it because we have to wait until the page has loaded fully, which avoids the risk of
+            trying to retrieve the background color of the <code>&lt;body&gt;</code> before the CSS
+            has loaded, and perhaps even before the <code>&lt;body&gt;</code> element itself has
+            been created.</p>
+        <p>The only <code>&lt;input&gt;</code> elements in our document are the checkboxes, so we
+            can round them all up and assign them to a variable we’ll call <code>checkboxes</code>
+            by getting all elements that have the tag name <q>input</q>, and we do this with</p>
+        <pre class="block">var checkboxes = document.getElementsByTagName('input');</pre>
+        <p>We then loop over the items in our <code>checkboxes</code> variable and attach an event
+            listener to each one that says that when a <code>click</code> event happens on one of
+            those elements (that is, whenever a user clicks a checkbox), the
+                <code>toggleHighlight()</code> function should fire.</p>
+        <p>The syntax for our loop is:</p>
+        <pre class="block">for (var i = 0; i &lt; checkboxes.length; i++) {
+    checkboxes[i].addEventListener('click', toggleHighlight, false);
+}</pre>
+        <p>The looping expression starts with the keyword <code>for</code> and then parentheses that
+            contain three semicolon-delimited components. In the first component, we declare a range
+            variable, which we arbitrarily call <code>i</code>, and initialize it to zero. In the
+            third component, which reads <code>i++</code>, we say, using a JavaScript idiom, that
+            each time the loop finishes we should increment the value of our <code>i</code>
+            variable. This means that the variable <code>i</code> will have the value <q>0</q> the
+            first time through the loop, then it will be equal to <q>1</q>, then <q>2</q>, etc. So
+            when does the looping stop? That’s the job of the middle component, which compares the
+            value of <code>i</code> on each pass through the loop to the number of checkboxes (in
+            JavaScript, we can find out how many items we have in the variable
+                <code>checkboxes</code> by using the <code>.length</code> property expression, that
+            is, by tagging a period and the word <q>length</q> after the object whose components we
+            want to count). Since JavaScript starts counting from 0, the first item in our group of
+            8 items in <code>checkboxes</code> is item #0, the last is #7, and we want to keep
+            looping as long as the value of <code>i</code> is less than the count of items, that is,
+            less than 8. The loop terminates whenever the test in the second component of the
+                <code>for</code> statement is false.</p>
+        <p>The syntax for adding an event listener is the same for how we handle adding a listener to the 
+        DOMContentLoaded event. You add <code>.addEventListener()</code>
+            after the element to which you want to attach the listener, and we use the value of our
+                <code>i</code> range variable to address those elements in turn. The first one will
+            be <code>checkboxes[0]</code>, the next one <code>checkboxes[1]</code>, etc., so if we
+            refer to <code>checkboxes[i]</code> inside the loop and the value of <code>i</code>
+            starts at 0 and we stop looping after we’ve finished item #7, that means that
+                <code>checkboxes[i]</code> will refer to each of the checkboxes in turn, until it
+            runs out of checkboxes.</p>
+        <p>The <code>.addEventListener()</code>
+            <dfn>method</dfn> (a method here is something we do to an object) takes three arguments:
+            the first is the name of the event (in quotation marks), the second is the name of the
+            function to fire when the event occurs (without the parentheses), and the third is the
+            word <q>false</q> (without quotation marks; for more information about <q>false</q> vs
+                <q>true</q> see Ilya Kantor’s <a
+                href="http://javascript.info/tutorial/bubbling-and-capturing">Bubbling and
+                capturing</a> tutorial, but the short version is that this value should almost
+            always be set to <q>false</q>). This means that if we set the value of a variable
+                <code>i</code> to a number inside a loop (see above), the expression</p>
+        <pre class="block">checkboxes[i].addEventListener('click', toggleHighlight, false);</pre>
+        <p>will take the i’th member of our group of checkboxes and assign to it an event listener
+            that will cause it to fire the <code>toggleHighlight()</code> function whenever the user
+            clicks that particular checkbox. Remember: the name of the event <em>must</em> be in
+            quotation marks (single or double; you can find a list of all possible events on <a
+                href="http://help.dottoro.com/larrqqck.php">Dottoro</a>), the name of the function
+                <em>must not</em> include the parentheses, and the name of the function and the word
+                <q>false</q>
+            <em>must not</em> be in quotation marks.</p>
+        <h4>The <code>toggleHighlight()</code> function</h4>
+        <p>The <code>toggleHighlight()</code> function fires whenever the user clicks on a checkbox.
+            The function first gets the part of speech and assigns it to a variable
+            <code>pos</code>, using:</p>
+        <pre class="block">var pos = this.getAttribute('value');</pre>
+        <p>You can refer to the <dfn>target</dfn>, the place where the event happened, with the
+            special word <code>this</code>, and we use the <code>.getAttribute()</code>
+            <dfn>method</dfn> of the target to get the value of its <code>@value</code> attribute.
+            We cleverly used the same strings for the <code>@value</code> attribute of the checkbox
+            and the <code>@class</code> attribute of the <code>&lt;span&gt;</code> elements that we
+            wrapped around each word, so we can use the <code>pos</code> variable we are creating as
+            a way of finding the elements whose background color we want to change.</p>
+        <p>To choose the appropriate color, we initialize a variable <code>color</code> and then
+            give it a value using the JavaScript <code>switch()</code> structure, which you can read
+            about at <a href="http://www.w3schools.com/js/js_switch.asp">W3Schools</a>:</p>
+        <pre class="block">var color;
+    switch (pos) {
+        case 'adj':
+        color = 'yellow';
+        break;
+        case 'art':
+        color = 'orange';
+        break;
+        case 'conj':
+        color = 'teal';
+        break;
+        case 'noun':
+        color = 'red';
+        break;
+        case 'number':
+        color = 'sandybrown';
+        break;
+        case 'prep':
+        color = 'lightgreen';
+        break;
+        case 'pron':
+        color = 'violet';
+        break;
+        case 'verb':
+        color = 'lightblue';
+        break;
+    }</pre>
+        <p>The short version is that <code>switch()</code> compares the value of its argument (the
+                <q>pos</q> inside the parentheses) to each of the values after the <code>case</code>
+            statements, and when it finds a match, it executes all of the statements until the first
+                <code>break</code> statment. For example, if the part of speech is <q>conj</q>, the
+                <code>switch()</code> structure will have the effect of setting the variable called
+                <code>color</code> to the value <q>teal</q>.</p>
+        <p>We next set a variable <code>status</code>, which records whether the checkbox is checked
+            or not:</p>
+        <pre class="block">var status = this.checked;
+// the status to which you've just changed the checkbox</pre>
+        <p>The expression <code>this.checked</code> returns the <code>checked</code>
+            <dfn>property</dfn> of the target, the checkbox we clicked, and the value is guaranteed
+            to be a Boolean value <q>true</q> or <q>false</q>. Note that the status that is returned
+            is the one we’ve just set by clicking, and that’s because the function fires only in
+            response to (after) our click event; the value isn’t what you saw before you clicked,
+            but what you made happen by clicking.</p>
+        <p>We next assign to the variable <code>spans</code> all of the <code>&lt;span&gt;</code>
+            elements we want to toggle, that is, all of the ones with a <code>@class</code>
+            attribute that matches the <code>pos</code> variable</p>
+        <pre class="block">var spans = document.getElementsByClassName(pos);</pre>
+        <p>We find those by using the expressions <code>document.getElementsByClassName(pos)</code>,
+            which gets all of the elements in the document (of any type, but we know that they are
+            all <code>&lt;span&gt;</code> elements) that have a <code>@class</code> value that
+            matches the value of our <code>pos</code> variable. We then loop over the items in
+                <code>spans</code> and for each one we check whether the value of
+                <code>status</code> is <q>true</q>:</p>
+        <pre class="block">for (var i = 0; i &lt; spans.length; i++) {
+    if (status == true) {
+        spans[i].style.backgroundColor = color;
+    } else {
+        spans[i].style.backgroundColor = originalBackground;
+    }
+}</pre>
+        <p>If it is true, that means that we’ve just checked the box, so we set the background color
+            of the <code>&lt;span&gt;</code>to the color we chose inside the <code>switch</code>
+            expression. If the value of the <code>status</code> variable is false, we’ve just
+            unchecked the box, so we set the background color of those elements back to the original
+            background color for the page.</p>
+        <p class="note">Beware! In JavaScript, a single equal sign <em>assigns</em> a value to a
+            variable; it <em>does not check</em> whether two values are equal. In our
+                <code>if</code> statement above, we used a double equal sign, which is how we test
+            for equality. The trap is that if you use a single equal sign where you really want a
+            double one in the <code>for</code> statement above, you won’t get an error. You’ll
+            assign the Boolean value <q>true</q> to the variable <code>status</code>, that
+            assignment will always succeed, so the <q>test</q> will always pass and you’ll always
+            assign a non-original background color (that is, you’ll be unable to toggle off the
+            highlighting). Try changing the double equal sign to a single one to see the damage!</p>
+        <p class="note">Challenge question: This isn’t the most efficient way to change the colors
+            because we’re checking the value of the <code>status</code> variable inside the loop,
+            that is, once for each item in our group of <code>spans</code>, even though it will
+            always have the same value. How would you tighten up the code to avoid that
+            repetition?</p>
+        <h4>The complete JavaScript file</h4>
+        <p>The complete JavaScript file is below and a working example (HTML with links to CSS and
+            JavaScript) is at <a href="javascript/pos/nyt_basic-with-spans.xhtml"
+                >http://dh.obdurodon.org/javascript/pos/nyt_basic-with-spans.xhtml</a></p>
+        <pre class="block">var originalBackground;
+function toggleHighlight() {
+    var pos = this.getAttribute('value');
+    var color;
+    switch (pos) {
+        case 'adj':
+        color = 'yellow';
+        break;
+        case 'art':
+        color = 'orange';
+        break;
+        case 'conj':
+        color = 'teal';
+        break;
+        case 'noun':
+        color = 'red';
+        break;
+        case 'number':
+        color = 'sandybrown';
+        break;
+        case 'prep':
+        color = 'lightgreen';
+        break;
+        case 'pron':
+        color = 'violet';
+        break;
+        case 'verb':
+        color = 'lightblue';
+        break;
+    }
+    var status = this.checked;
+    // the status to which you've just changed the checkbox
+    var spans = document.getElementsByClassName(pos);
+    for (var i = 0; i &lt; spans.length; i++) {
+        if (status == true) {
+            spans[i].style.backgroundColor = color;
+        } else {
+            spans[i].style.backgroundColor = originalBackground;
+        }
+    }
+}
+function init() {
+    originalBackground = document.body.style.backgroundColor;
+    var checkboxes = document.getElementsByTagName('input');
+    for (var i = 0; i &lt; checkboxes.length; i++) {
+        checkboxes[i].addEventListener('click', toggleHighlight, false);
+    }
+}
+window.addEventListener('DOMContentLoaded', init, false);</pre>
+    </body>
+</html>
