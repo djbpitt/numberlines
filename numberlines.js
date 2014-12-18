@@ -18,6 +18,9 @@
  * 2014-12-17
  *   Use flex-box layout to handle wrapped lines
  *   (Safari and IE insert vertical space for \n; Chrome and Firefox don't; avoid \n to control)
+ *   Line wrapping is still broken:
+ *      Height is miscalculated in all browsers
+ *      Safari wraps incorrectly
  * To do:
  *   Use private namespace or anonymous functions
  *   Add display widgets from https://wordpress.org/plugins/crayon-syntax-highlighter/
