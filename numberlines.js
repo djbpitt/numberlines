@@ -15,6 +15,9 @@
  *   CSS white-space: pre-wrap to handle long lines
  * 2014-12-14
  *   Get all wrappers and properties all the way up
+ * 2014-12-17
+ *   Use flex-box layout to handle wrapped lines
+ *   (Safari and IE insert vertical space for \n; Chrome and Firefox don't; avoid \n to control)
  * To do:
  *   Use private namespace or anonymous functions
  *   Add display widgets from https://wordpress.org/plugins/crayon-syntax-highlighter/

@@ -9,12 +9,17 @@
  */
 .block{
     counter-reset:linecounter;
+    display:flex;
+    flex-direction:column;
+    box-orient:vertical;
+    box-pack:center;
+    box-align:center;
 }
 .block > span{
     counter-increment:linecounter;
     width:100%;
-    float:left;
-    white-space: pre-wrap;
+    display:flex;
+    white-space:pre-wrap;
 }
 .block > span:nth-child(odd){
     /*background-color:#B2F0FF;*/
@@ -26,12 +31,12 @@
     /*background-color:#F5DBD1;*/
     background-color:#c6dbef;
 }
-.numbered > span:before{
-    color: gray;
-    font-size: 80%;
+.block > span:before{
+    color:gray;
+    font-size:80%;
     content:counter(linecounter);
-    float: left; /*http://stackoverflow.com/questions/19439079/css-before-pseudo-element-line-height*/
-    width:2.5em;
+    float:left; /*http://stackoverflow.com/questions/19439079/css-before-pseudo-element-line-height*/
+    min-width:2.5em;
     display:inline-block;
     border-right:1px solid gray;
     margin-right:3px;
