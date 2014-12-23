@@ -5,10 +5,13 @@
     <!--#config timefmt="%Y-%m-%dT%X%z" -->
     <head>
         <title><!--#echo var="title" --></title>
-        <link rel="stylesheet" type="text/css" href="http://www.obdurodon.org/css/style.css" />
+        <!--<link rel="stylesheet" type="text/css" href="http://www.obdurodon.org/css/style.css" />-->
+        <link href="style.css" rel="stylesheet" type="text/css" />
         <!--#include virtual="inc/dh-header.html" -->
-<!--        <link href="http://www.obdurodon.org/css/numberlines.css" rel="stylesheet" type="text/css"/>
-        <script type="text/javascript" src="http://www.obdurodon.org/js/numberlines.js">/**/</script>-->
+        <!--<link href="http://www.obdurodon.org/css/numberlines.css" rel="stylesheet" type="text/css" />-->
+        <link rel="stylesheet" type="text/css" href="numberlines.css" />
+        <script type="text/javascript" src="numberlines.js">/**/</script>
+        <!--<script type="text/javascript" src="http://www.obdurodon.org/js/numberlines.js">/**/</script>-->
     </head>
     <body>
         <!--#include virtual="inc/dh-boilerplate.html" -->
@@ -65,10 +68,10 @@
             attach multiple JavaScript files to your HTML. The method outlined above is easy to
             understand because it separates the components neatly: 1) create a function that will do
             something you care about; 2) create code that will cause bits of your HTML (targets) to
-            fire the function when you interact with them; and 3) cause the initialization
-            code, which binds the function to the targets, to run when you load the page. If your
-            needs are more complex, let us know and we’ll tell you about the risks of this
-            simplified procedure and how to avoid them.</p>
+            fire the function when you interact with them; and 3) cause the initialization code,
+            which binds the function to the targets, to run when you load the page. If your needs
+            are more complex, let us know and we’ll tell you about the risks of this simplified
+            procedure and how to avoid them.</p>
         <h3>Sample project</h3>
         <p>Highlighting is the easiest type of JavaScript action because it can involve just
             changing the background color of part of the page. This is simpler than other common
@@ -192,12 +195,14 @@
             3) initialize the script so that the binding happens when the page loads. The complete
             JavaScript file is below, but we discuss the parts separately first.</p>
         <h4>Bootstrapping with <code>window.addEventListener()</code></h4>
-        <p>Our initialization is executed by firing the code below. Here, we declare a function called <code>init()</code> earlier 
-        in our code and pass it's name as an argument when we add the event listener. We could also write our code
-        directly into the <code>addEventListener()</code> call. This format would add an anonymous function to listen
-        to our load event. Using an anonymous function doesn't require naming the function, and so we prevent any naming collisions.
-        If we were to link another javascript file to our HTML (with our current implementation), we would have to check that there is no other function called
-        <code>init()</code> else deal with potentially broken code.</p>
+        <p>Our initialization is executed by firing the code below. Here, we declare a function
+            called <code>init()</code> earlier in our code and pass it's name as an argument when we
+            add the event listener. We could also write our code directly into the
+                <code>addEventListener()</code> call. This format would add an anonymous function to
+            listen to our load event. Using an anonymous function doesn't require naming the
+            function, and so we prevent any naming collisions. If we were to link another javascript
+            file to our HTML (with our current implementation), we would have to check that there is
+            no other function called <code>init()</code> else deal with potentially broken code.</p>
         <pre class="block">window.addEventListener('DOMContentLoaded', init, false);</pre>
         <h4>The original background color</h4>
         <p>We want to change the background color for each part of speech, and in order to be able
@@ -258,9 +263,9 @@
             looping as long as the value of <code>i</code> is less than the count of items, that is,
             less than 8. The loop terminates whenever the test in the second component of the
                 <code>for</code> statement is false.</p>
-        <p>The syntax for adding an event listener is the same for how we handle adding a listener to the 
-        DOMContentLoaded event. You add <code>.addEventListener()</code>
-            after the element to which you want to attach the listener, and we use the value of our
+        <p>The syntax for adding an event listener is the same for how we handle adding a listener
+            to the DOMContentLoaded event. You add <code>.addEventListener()</code> after the
+            element to which you want to attach the listener, and we use the value of our
                 <code>i</code> range variable to address those elements in turn. The first one will
             be <code>checkboxes[0]</code>, the next one <code>checkboxes[1]</code>, etc., so if we
             refer to <code>checkboxes[i]</code> inside the loop and the value of <code>i</code>

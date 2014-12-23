@@ -7,19 +7,63 @@
  * Based on http://bililite.com/blog/2012/08/05/line-numbering-in-pre-elements/
  * Works with numberlines.js; full documentation there
  */
-.block{
+
+/*.block{
     counter-reset:linecounter;
-    display:flex;
+    display: table;
+/\*    display:flex;
     flex-direction:column;
     box-orient:vertical;
     box-pack:center;
-    box-align:center;
+    box-align:center;*\/
 }
 .block > span{
     counter-increment:linecounter;
     width:100%;
-    display:flex;
+    display:table-row;
     white-space:pre-wrap;
+}
+.block > span:nth-child(odd){
+    /\*background-color:#B2F0FF;*\/
+    /\*background-color:#FFE4DA;*\/
+    background-color:#eff3ff;
+}
+.block > span:nth-child(even){
+    /\*background-color:#FFE1E6;*\/
+    /\*background-color:#F5DBD1;*\/
+    background-color:#c6dbef;
+}
+.block > span:before{
+    color:gray;
+    font-size:80%;
+    content:counter(linecounter);
+    float:left; /\*http://stackoverflow.com/questions/19439079/css-before-pseudo-element-line-height*\/
+    min-width:2.5em;
+    display:block;
+    border-right:1px solid gray;
+    margin-right:3px;
+    text-align:right;
+    padding-right:3px;
+}*/
+
+.block{
+    counter-reset:linecounter;
+    display:flex;
+    display:-webkit-flex;
+    flex-direction:column;
+    -webkit-flex-direction:column;
+    box-orient:vertical;
+    box-pack:center;
+    box-align:center;
+/*    width:100%;
+*/}
+.block > span{
+    counter-increment:linecounter;
+/*    width:100%;
+*/    display:flex;
+    display:-webkit-flex;
+    white-space:pre-wrap;
+    border-collapse:collapse;
 }
 .block > span:nth-child(odd){
     /*background-color:#B2F0FF;*/
@@ -31,15 +75,15 @@
     /*background-color:#F5DBD1;*/
     background-color:#c6dbef;
 }
-.block > span:before{
+.block > span::before{
     color:gray;
     font-size:80%;
     content:counter(linecounter);
     float:left; /*http://stackoverflow.com/questions/19439079/css-before-pseudo-element-line-height*/
     min-width:2.5em;
-    display:inline-block;
-    border-right:1px solid gray;
+    display:block;
     margin-right:3px;
     text-align:right;
     padding-right:3px;
+    border-right:gray 1px solid;
 }

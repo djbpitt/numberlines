@@ -93,7 +93,7 @@ function numberLines(block) {
     }
     block.innerHTML = "";
     block.appendChild(rebuilt.cloneNode(true));
-    block.style.height=(lines.length * 1.1) + 'em';
+    //block.style.height=(lines.length * 1.1) + 'em';
     block.classList.contains('numbered') ? true : block.classList.add('numbered');
 }
 function getNodesAndOffsets(root, startPosition, endPosition) {
