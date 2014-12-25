@@ -6,6 +6,12 @@
  * Developer: David J. Birnbaum, djbpitt@gmail.com, http://www.obdurodon.org
  * License: Creative Commons Attribution 4.0 International License (http://creativecommons.org/licenses/by/4.0/)
  *
+ * To use:
+ * 1. Link to numberlines.js and numberlines.css
+ * 2. Tag <pre> blocks to be numbered as <pre class="block">
+ * 3. Numbering starts at "1"; override with <pre class="block" data-startpos="x">,
+ *    where "x" is the starting value
+ *
  * 2014-11-16 Initial version
  * 2014-11-18 Change from load event to DOMContentLoaded to reduce FOUT
  * 2014-12-10 Retrieves color from parent span if there is one
@@ -21,9 +27,13 @@
  *   Line wrapping is still broken:
  *      Height is miscalculated in all browsers
  *      Safari wraps incorrectly
+ * 2014-12-25
+ *   Use table-based CSS instead of flex-box. Oh, well!
+ *   Numbering starts at 1 unless there's a @data-startpos on the <pre class="block">
  * To do:
  *   Use private namespace or anonymous functions
- *   Add display widgets from https://wordpress.org/plugins/crayon-syntax-highlighter/
+ *   Toggle line wrapping
+ *   Add other display widgets from https://wordpress.org/plugins/crayon-syntax-highlighter/?
  *
  * Based on http://bililite.com/blog/2012/08/05/line-numbering-in-pre-elements/
  * Additional information about JavaScript ranges
@@ -49,7 +59,6 @@ function adjustNumbering(blockOffset, startpos) {
     var style = document.createElement('style');
     style.appendChild(document.createTextNode(''));
     document.head.appendChild(style);
-    style.sheet.insertRule('p {color: purple;}',0);
     style.sheet.insertRule('pre:nth-of-type(' + (blockOffset + 1) + ') {counter-reset: linecounter ' + (startpos - 1) + '}',0);
     console.log(style);
     console.log('pre:nth-of-type(' + (blockOffset + 1) + ') {counter-reset: linecounter ' + (startpos - 1) + '}');
