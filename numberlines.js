@@ -37,20 +37,22 @@ function processBlocks() {
     var blocks = document.getElementsByClassName('block');
     for (var i = 0; i < blocks.length; i++) {
         numberLines(blocks[i]);
-        var startNumber = blocks[i].dataset.startPos ? parseInt(blocks[i].dataset.startPos) : 1;
+        var startNumber = blocks[i].dataset.startpos ? parseInt(blocks[i].dataset.startpos) : 1;
+        console.log(i + ' : ' + blocks[i].dataset.startpos);
         if (startNumber !== 1) {
             adjustNumbering(i,startNumber)
         }
     }
 }
-function adjustNumbering(blockOffset, startPos) {
-    console.log(blockOffset + ' : ' + startPos);
+function adjustNumbering(blockOffset, startpos) {
+    console.log(blockOffset + ' : ' + startpos);
     var style = document.createElement('style');
-    //style.appendChild(document.createTextNode(''));
+    style.appendChild(document.createTextNode(''));
     document.head.appendChild(style);
-    style.sheet.insertRule('pre:nth-of-type(' + (blockOffset + 1) + ') {counter-reset: linecounter ' + (startPos - 1) + '}',0);
-    console.log(style.sheet);
-    console.log('pre:nth-of-type(' + (blockOffset + 1) + ') {counter-reset: linecounter ' + (startPos - 1) + '}');
+    style.sheet.insertRule('p {color: purple;}',0);
+    style.sheet.insertRule('pre:nth-of-type(' + (blockOffset + 1) + ') {counter-reset: linecounter ' + (startpos - 1) + '}',0);
+    console.log(style);
+    console.log('pre:nth-of-type(' + (blockOffset + 1) + ') {counter-reset: linecounter ' + (startpos - 1) + '}');
 }
 function numberLines(block) {
     var range = document.createRange(); // hold current line

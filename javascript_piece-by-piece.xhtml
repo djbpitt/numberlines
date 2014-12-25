@@ -203,13 +203,13 @@
             function, and so we prevent any naming collisions. If we were to link another javascript
             file to our HTML (with our current implementation), we would have to check that there is
             no other function called <code>init()</code> else deal with potentially broken code.</p>
-        <pre class="block" data-startPos="49">window.addEventListener('DOMContentLoaded', init, false);</pre>
+        <pre class="block" data-startpos="49">window.addEventListener('DOMContentLoaded', init, false);</pre>
         <h4>The original background color</h4>
         <p>We want to change the background color for each part of speech, and in order to be able
             to change it back, we need to remember the original background color of the page. We can
             retrieve the original background color and set it to a variable called
                 <code>originalBackground</code> with:</p>
-        <pre class="block" data-startPos="43">originalBackground = document.body.style.backgroundColor;</pre>
+        <pre class="block" data-startpos="43">originalBackground = document.body.style.backgroundColor;</pre>
         <p>We need to do this inside our <code>init()</code> function because we can’t determine the
             value safely until the page has loaded completely, so that the <code>&lt;body&gt;</code>
             element has been constructed and the background color has been set. We declare the
@@ -219,7 +219,7 @@
         <h4>Initialization with <code>init()</code></h4>
         <p>Our initialization function, which we’ve called <code>init()</code>, reads as
             follows:</p>
-        <pre class="block" data-startPos="42">function init() {
+        <pre class="block" data-startpos="42">function init() {
     originalBackground = document.body.style.backgroundColor;
     var checkboxes = document.getElementsByTagName('input');
     for (var i = 0; i &lt; checkboxes.length; i++) {
@@ -237,13 +237,13 @@
         <p>The only <code>&lt;input&gt;</code> elements in our document are the checkboxes, so we
             can round them all up and assign them to a variable we’ll call <code>checkboxes</code>
             by getting all elements that have the tag name <q>input</q>, and we do this with</p>
-        <pre class="block" data-startPos="44">var checkboxes = document.getElementsByTagName('input');</pre>
+        <pre class="block" data-startpos="44">var checkboxes = document.getElementsByTagName('input');</pre>
         <p>We then loop over the items in our <code>checkboxes</code> variable and attach an event
             listener to each one that says that when a <code>click</code> event happens on one of
             those elements (that is, whenever a user clicks a checkbox), the
                 <code>toggleHighlight()</code> function should fire.</p>
         <p>The syntax for our loop is:</p>
-        <pre class="block" data-startPos="45">for (var i = 0; i &lt; checkboxes.length; i++) {
+        <pre class="block" data-startpos="45">for (var i = 0; i &lt; checkboxes.length; i++) {
     checkboxes[i].addEventListener('click', toggleHighlight, false);
 }</pre>
         <p>The looping expression starts with the keyword <code>for</code> and then parentheses that
@@ -282,7 +282,7 @@
                 capturing</a> tutorial, but the short version is that this value should almost
             always be set to <q>false</q>). This means that if we set the value of a variable
                 <code>i</code> to a number inside a loop (see above), the expression</p>
-        <pre class="block" data-startPos="46">checkboxes[i].addEventListener('click', toggleHighlight, false);</pre>
+        <pre class="block" data-startpos="46">checkboxes[i].addEventListener('click', toggleHighlight, false);</pre>
         <p>will take the i’th member of our group of checkboxes and assign to it an event listener
             that will cause it to fire the <code>toggleHighlight()</code> function whenever the user
             clicks that particular checkbox. Remember: the name of the event <em>must</em> be in
@@ -295,7 +295,7 @@
         <p>The <code>toggleHighlight()</code> function fires whenever the user clicks on a checkbox.
             The function first gets the part of speech and assigns it to a variable
             <code>pos</code>, using:</p>
-        <pre class="block" data-startPos="3">var pos = this.getAttribute('value');</pre>
+        <pre class="block" data-startpos="3">var pos = this.getAttribute('value');</pre>
         <p>You can refer to the <dfn>target</dfn>, the place where the event happened, with the
             special word <code>this</code>, and we use the <code>.getAttribute()</code>
             <dfn>method</dfn> of the target to get the value of its <code>@value</code> attribute.
@@ -306,7 +306,7 @@
         <p>To choose the appropriate color, we initialize a variable <code>color</code> and then
             give it a value using the JavaScript <code>switch()</code> structure, which you can read
             about at <a href="http://www.w3schools.com/js/js_switch.asp">W3Schools</a>:</p>
-        <pre class="block" data-startPos="5">var color;
+        <pre class="block" data-startpos="5">var color;
     switch (pos) {
         case 'adj':
         color = 'yellow';
@@ -341,7 +341,7 @@
                 <code>color</code> to the value <q>teal</q>.</p>
         <p>We next set a variable <code>status</code>, which records whether the checkbox is checked
             or not:</p>
-        <pre class="block" data-startPos="31">var status = this.checked;
+        <pre class="block" data-startpos="31">var status = this.checked;
 // the status to which you've just changed the checkbox</pre>
         <p>The expression <code>this.checked</code> returns the <code>checked</code>
             <dfn>property</dfn> of the target, the checkbox we clicked, and the value is guaranteed
@@ -352,14 +352,14 @@
         <p>We next assign to the variable <code>spans</code> all of the <code>&lt;span&gt;</code>
             elements we want to toggle, that is, all of the ones with a <code>@class</code>
             attribute that matches the <code>pos</code> variable</p>
-        <pre class="block" data-startPos="33">var spans = document.getElementsByClassName(pos);</pre>
+        <pre class="block" data-startpos="33">var spans = document.getElementsByClassName(pos);</pre>
         <p>We find those by using the expressions <code>document.getElementsByClassName(pos)</code>,
             which gets all of the elements in the document (of any type, but we know that they are
             all <code>&lt;span&gt;</code> elements) that have a <code>@class</code> value that
             matches the value of our <code>pos</code> variable. We then loop over the items in
                 <code>spans</code> and for each one we check whether the value of
                 <code>status</code> is <q>true</q>:</p>
-        <pre class="block" data-startPos="34">for (var i = 0; i &lt; spans.length; i++) {
+        <pre class="block" data-startpos="34">for (var i = 0; i &lt; spans.length; i++) {
     if (status == true) {
         spans[i].style.backgroundColor = color;
     } else {
