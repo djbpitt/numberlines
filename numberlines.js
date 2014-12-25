@@ -48,20 +48,16 @@ function processBlocks() {
     for (var i = 0; i < blocks.length; i++) {
         numberLines(blocks[i]);
         var startNumber = blocks[i].dataset.startpos ? parseInt(blocks[i].dataset.startpos) : 1;
-        console.log(i + ' : ' + blocks[i].dataset.startpos);
         if (startNumber !== 1) {
             adjustNumbering(i,startNumber)
         }
     }
 }
 function adjustNumbering(blockOffset, startpos) {
-    console.log(blockOffset + ' : ' + startpos);
     var style = document.createElement('style');
     style.appendChild(document.createTextNode(''));
     document.head.appendChild(style);
     style.sheet.insertRule('pre:nth-of-type(' + (blockOffset + 1) + ') {counter-reset: linecounter ' + (startpos - 1) + '}',0);
-    console.log(style);
-    console.log('pre:nth-of-type(' + (blockOffset + 1) + ') {counter-reset: linecounter ' + (startpos - 1) + '}');
 }
 function numberLines(block) {
     var range = document.createRange(); // hold current line
@@ -117,11 +113,10 @@ function numberLines(block) {
     }
     block.innerHTML = "";
     block.appendChild(rebuilt.cloneNode(true));
-    //block.style.height=(lines.length * 1.1) + 'em';
     block.classList.contains('numbered') ? true : block.classList.add('numbered');
 }
 function getNodesAndOffsets(root, startPosition, endPosition) {
-    var nodeIterator = document.createNodeIterator(root, NodeFilter.SHOW_TEXT);
+    var nodeIterator = document.createNodeIterator(root, NodeFilter.SHOW_TEXT, null, false);
     var currentNode;
     var currentNodeOffset;
     var position = 0;
