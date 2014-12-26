@@ -67,19 +67,22 @@
 .block > span:nth-child(odd){
     /*background-color:#B2F0FF;*/
     /*background-color:#FFE4DA;*/
-    background-color:#eff3ff;
+    /*background-color:#eff3ff;*/
+    background-color:#c6dbef;
 }
 .block > span:nth-child(even){
     /*background-color:#FFE1E6;*/
     /*background-color:#F5DBD1;*/
-    background-color:#c6dbef;
+    /*background-color:#c6dbef;*/
+    background-color:#deebf7;
 }
 .block > span::before{
     color:gray;
     font-size:70%;
     content:counter(linecounter);
-/*    float:left; /\*http://stackoverflow.com/questions/19439079/css-before-pseudo-element-line-height*\/
-*/    min-width:2.5em;
+    /*    float:left; /\*http://stackoverflow.com/questions/19439079/css-before-pseudo-element-line-height*\/
+*/
+    min-width:2.5em;
     max-width:2.5em;
     width:2.5em;
     display:block;
