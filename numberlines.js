@@ -63,6 +63,7 @@ function numberLines(block) {
     var range = document.createRange(); // hold current line
     var rebuilt = document.createDocumentFragment(); // assemble <span>-tagged replacement for original <pre> content
     var span; // create a span to wrap the line
+    var wrapper; // double span, to support table CSS
     var fragment; // clone the range contents into here and then do span.appendChild
     var startPos = 0;
     var endPos = 0;
@@ -84,6 +85,7 @@ function numberLines(block) {
         range.setStart(startNode,startOffset);
         range.setEnd(endNode,endOffset);
         span = document.createElement('span');
+        wrapper = document.createElement('span');
         startAncestors = [];
         startAncestor = startNode.parentNode;
         while (startAncestor.nodeName != 'pre') {
@@ -108,7 +110,8 @@ function numberLines(block) {
             }
         }
         deepestNode.appendChild(fragment);
-        rebuilt.appendChild(span);
+        wrapper.appendChild(span);
+        rebuilt.appendChild(wrapper);
         startPos += lines[i].length + 1;
     }
     block.innerHTML = "";
