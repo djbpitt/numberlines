@@ -48,22 +48,21 @@
 
 .block{
     counter-reset:linecounter;
-    display:flex;
-    display:-webkit-flex;
-    flex-direction:column;
-    -webkit-flex-direction:column;
-    box-orient:vertical;
-    box-pack:center;
-    box-align:center;
-/*    width:100%;
-*/}
-.block > span{
-    counter-increment:linecounter;
-/*    width:100%;
-*/    display:flex;
-    display:-webkit-flex;
+    display:table;
     white-space:pre-wrap;
     border-collapse:collapse;
+    width:95%;
+}
+.block > span{
+    counter-increment:linecounter;
+    display:table-row;
+    white-space:pre-wrap;
+    border-collapse:collapse;
+}
+.block > span > span{
+    display:table-cell;
+    border-left:1px gray solid;
+    width:100%;
 }
 .block > span:nth-child(odd){
     /*background-color:#B2F0FF;*/
@@ -77,13 +76,14 @@
 }
 .block > span::before{
     color:gray;
-    font-size:80%;
+    font-size:70%;
     content:counter(linecounter);
-    float:left; /*http://stackoverflow.com/questions/19439079/css-before-pseudo-element-line-height*/
-    min-width:2.5em;
+/*    float:left; /\*http://stackoverflow.com/questions/19439079/css-before-pseudo-element-line-height*\/
+*/    min-width:2.5em;
+    max-width:2.5em;
+    width:2.5em;
     display:block;
     margin-right:3px;
     text-align:right;
     padding-right:3px;
-    border-right:gray 1px solid;
 }
