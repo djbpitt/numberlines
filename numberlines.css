@@ -51,7 +51,8 @@
     display:table;
     white-space:pre-wrap;
     border-collapse:collapse;
-    width:95%;
+    margin: 1em;
+    padding: 1em;
 }
 .block > span{
     counter-increment:linecounter;
