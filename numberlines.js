@@ -30,6 +30,8 @@
  * 2014-12-25
  *   Use table-based CSS instead of flex-box. Oh, well!
  *   Numbering starts at 1 unless there's a @data-startpos on the <pre class="block">
+ * 2015-01-04
+ *   Correctly figures out which <pre> element has to have it's start number adjusted
  * To do:
  *   Use private namespace or anonymous functions
  *   Toggle line wrapping
@@ -44,12 +46,14 @@
  *   http://www.w3.org/TR/DOM-Level-2-Traversal-Range/traversal.html
  */
 function processBlocks() {
-    var blocks = document.getElementsByClassName('block');
+    var blocks = document.getElementsByTagName('pre');
     for (var i = 0; i < blocks.length; i++) {
-        numberLines(blocks[i]);
-        var startNumber = blocks[i].dataset.startpos ? parseInt(blocks[i].dataset.startpos) : 1;
-        if (startNumber !== 1) {
-            adjustNumbering(i,startNumber)
+        if (blocks[i].classList.contains('block')) {
+            numberLines(blocks[i]);
+            var startNumber = blocks[i].dataset.startpos ? parseInt(blocks[i].dataset.startpos) : 1;
+            if (startNumber !== 1) {
+                adjustNumbering(i, startNumber)
+            }
         }
     }
 }
@@ -57,7 +61,7 @@ function adjustNumbering(blockOffset, startpos) {
     var style = document.createElement('style');
     style.appendChild(document.createTextNode(''));
     document.head.appendChild(style);
-    style.sheet.insertRule('pre:nth-of-type(' + (blockOffset + 1) + ') {counter-reset: linecounter ' + (startpos - 1) + '}',0);
+    style.sheet.insertRule('pre:nth-of-type(' + (blockOffset + 1) + ') {counter-reset: linecounter ' + (startpos - 1) + '}', 0);
 }
 function numberLines(block) {
     var range = document.createRange(); // hold current line
@@ -77,13 +81,13 @@ function numberLines(block) {
     lines = block.textContent.split('\n');
     for (i = 0; i < lines.length; i++) {
         endPos = startPos + lines[i].length;
-        nodesAndOffsets = getNodesAndOffsets(block,startPos,endPos);
+        nodesAndOffsets = getNodesAndOffsets(block, startPos, endPos);
         startNode = nodesAndOffsets['startNode'];
         startOffset = nodesAndOffsets['startOffset'];
         endNode = nodesAndOffsets['endNode'];
         endOffset = nodesAndOffsets['endOffset'];
-        range.setStart(startNode,startOffset);
-        range.setEnd(endNode,endOffset);
+        range.setStart(startNode, startOffset);
+        range.setEnd(endNode, endOffset);
         span = document.createElement('span');
         wrapper = document.createElement('span');
         startAncestors = [];
@@ -136,7 +140,7 @@ function getNodesAndOffsets(root, startPosition, endPosition) {
             currentNodeOffset = endPosition - position;
             endNode = currentNode;
             endOffset = currentNodeOffset;
-            return {startNode : startNode, startOffset: startOffset, endNode : endNode, endOffset: endOffset}
+            return {startNode: startNode, startOffset: startOffset, endNode: endNode, endOffset: endOffset}
         }
         position += nodeLength;
     }
