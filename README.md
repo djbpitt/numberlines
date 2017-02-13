@@ -5,7 +5,7 @@ Number lines in HTML &lt;pre&gt; source listing
 
  To use:
  
-1. Link to **numberlines.js** and **numberlines.css**:
+1. Link to **numberlines.css** and **numberlines.js** :
 
 	`<link href="http://www.obdurodon.org/css/numberlines.css" rel="stylesheet" type="text/css" />`  
 	`<script type="text/javascript" src="http://www.obdurodon.org/js/numberlines.js">/**/</script>`
