@@ -50,30 +50,33 @@ function processBlocks() {
     for (var i = 0; i < blocks.length; i++) {
         if (blocks[i].classList.contains('block')) {
             numberLines(blocks[i]);
-            var startNumber = blocks[i].dataset.startpos ? parseInt(blocks[i].dataset.startpos) : 1;
+            const startNumber = blocks[i].dataset.startpos ? parseInt(blocks[i].dataset.startpos): 1;
             if (startNumber !== 1) {
-                adjustNumbering(i, startNumber)
+                adjustNumbering(blocks[i], startNumber)
             }
         }
     }
 }
-function adjustNumbering(blockOffset, startpos) {
-    var style = document.createElement('style');
-    style.appendChild(document.createTextNode(''));
-    document.head.appendChild(style);
-    style.sheet.insertRule('pre:nth-of-type(' + (blockOffset + 1) + ') {counter-reset: linecounter ' + (startpos - 1) + '}', 0);
+function adjustNumbering(block, startpos) {
+    block.style[ 'counter-reset'] = 'linecounter ' + (startpos - 1);
 }
 function numberLines(block) {
-    var range = document.createRange(); // hold current line
-    var rebuilt = document.createDocumentFragment(); // assemble <span>-tagged replacement for original <pre> content
-    var span; // create a span to wrap the line
-    var wrapper; // double span, to support table CSS
-    var fragment; // clone the range contents into here and then do span.appendChild
+    var range = document.createRange();
+    // hold current line
+    var rebuilt = document.createDocumentFragment();
+    // assemble <span>-tagged replacement for original <pre> content
+    var span;
+    // create a span to wrap the line
+    var wrapper;
+    // double span, to support table CSS
+    var fragment;
+    // clone the range contents into here and then do span.appendChild
     var startPos = 0;
     var endPos = 0;
-    var nodesAndOffsets; // get start and end nodes and offsets back as associative array
+    var nodesAndOffsets;
+    // get start and end nodes and offsets back as associative array
     var startNode, startOffset, endNode, endOffset;
-    var startAncestor, endAncestor, startAncestors = [], endAncestors = [];
+    var startAncestor, endAncestor, startAncestors =[], endAncestors =[];
     var deepestNode;
     var hierarchy;
     var lines;
@@ -82,21 +85,21 @@ function numberLines(block) {
     for (i = 0; i < lines.length; i++) {
         endPos = startPos + lines[i].length;
         nodesAndOffsets = getNodesAndOffsets(block, startPos, endPos);
-        startNode = nodesAndOffsets['startNode'];
-        startOffset = nodesAndOffsets['startOffset'];
-        endNode = nodesAndOffsets['endNode'];
-        endOffset = nodesAndOffsets['endOffset'];
+        startNode = nodesAndOffsets[ 'startNode'];
+        startOffset = nodesAndOffsets[ 'startOffset'];
+        endNode = nodesAndOffsets[ 'endNode'];
+        endOffset = nodesAndOffsets[ 'endOffset'];
         range.setStart(startNode, startOffset);
         range.setEnd(endNode, endOffset);
         span = document.createElement('span');
         wrapper = document.createElement('span');
-        startAncestors = [];
+        startAncestors =[];
         startAncestor = startNode.parentNode;
         while (startAncestor.nodeName != 'pre') {
             startAncestors.push(startAncestor);
             startAncestor = startAncestor.parentElement;
         }
-        endAncestors = [];
+        endAncestors =[];
         endAncestor = endNode.parentNode;
         while (endAncestor.nodeName != 'pre') {
             endAncestors.push(endAncestor);
@@ -107,7 +110,7 @@ function numberLines(block) {
         // then insert "fragment" at the deepest point
         deepestNode = span;
         if (startAncestors.length > 0 && endAncestors.length > 0) {
-            hierarchy = (startAncestors.length >= endAncestors.length) ? endAncestors : startAncestors;
+            hierarchy = (startAncestors.length >= endAncestors.length) ? endAncestors: startAncestors;
             for (j = hierarchy.length - 1; j >= 0; j--) {
                 deepestNode.appendChild(hierarchy[j].cloneNode(false));
                 deepestNode = deepestNode.firstElementChild;
@@ -120,7 +123,7 @@ function numberLines(block) {
     }
     block.innerHTML = "";
     block.appendChild(rebuilt.cloneNode(true));
-    block.classList.contains('numbered') ? true : block.classList.add('numbered');
+    block.classList.contains('numbered') ? true: block.classList.add('numbered');
 }
 function getNodesAndOffsets(root, startPosition, endPosition) {
     var nodeIterator = document.createNodeIterator(root, NodeFilter.SHOW_TEXT, null, false);
@@ -140,7 +143,9 @@ function getNodesAndOffsets(root, startPosition, endPosition) {
             currentNodeOffset = endPosition - position;
             endNode = currentNode;
             endOffset = currentNodeOffset;
-            return {startNode: startNode, startOffset: startOffset, endNode: endNode, endOffset: endOffset}
+            return {
+                startNode: startNode, startOffset: startOffset, endNode: endNode, endOffset: endOffset
+            }
         }
         position += nodeLength;
     }

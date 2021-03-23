@@ -7,11 +7,12 @@
         <title><!--#echo var="title" --></title>
         <link rel="stylesheet" type="text/css" href="http://www.obdurodon.org/css/style.css" />
         <link rel="stylesheet" type="text/css" href="numberlines.css" />
-        <script type="text/javascript" src="numberlines.js">/**/</script>
+        <script type="text/javascript" src="numberlines.js">
+            /**/</script>
         <!--#include virtual="/inc/dh-header.html" -->
         <style type="text/css">
-            .question{
-                color:peru;
+            .question {
+                color: peru;
             }</style>
     </head>
     <body>
@@ -75,5 +76,30 @@
         &lt;p&gt;ooo</span> ppp&lt;/p&gt;
     &lt;/body&gt;
 &lt;/html&gt;</pre>
+        <section>
+            <p>HTML with internal markup inside sections breaks because of <code>nth-child()</code>.
+                This should start numbering at 5, and it doesn’t because because it’s wrapped in a
+                    <code>&lt;section&gt;</code> element, which means that the
+                    <code>&lt;pre&gt;</code> isn’t a sibling of other <code>&lt;pre&gt;</code>
+                elements. This, in turn, gives the wrong count to <code>nth-child()</code>.</p>
+            <pre class="block" data-startpos="5">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+    &lt;head&gt;
+        &lt;title&gt;Test&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;p&gt;aaa <span style="color:blue;">bbb&lt;/p&gt;
+        &lt;p&gt;ccc</span> ddd&lt;/p&gt;
+        &lt;p&gt;eee&lt;/p&gt;
+        &lt;p&gt;fff ggg&lt;/p&gt;
+        &lt;p&gt;hhh <span style="color:blue;">iii&lt;/p&gt;
+        &lt;p&gt;<em>jjj&lt;/p&gt;
+        &lt;p&gt;kkk lll&lt;p&gt;
+        &lt;p&gt;mmm</em> nnn&lt;/p&gt;
+        &lt;p&gt;ooo</span> ppp&lt;/p&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</pre>
+        </section>
     </body>
 </html>
